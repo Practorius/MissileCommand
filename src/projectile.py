@@ -3,18 +3,23 @@ import pygame
 
 class Projectile:
     
-    def __init__(self):
-        self.pos = pygame.math.Vector2(random.random(), 0)
+    def __init__(self, screen_width, projectile_type):
+        
+        if projectile_type == 'defense':
+            self.max_magnitude = 5
+            self.pos = pygame.math.Vector2(random.random()*screen_width/2, 0)
+        elif projectile_type == 'offense':
+            self.max_magnitude = 2
+            self.pos = pygame.math.Vector2(random.random()*screen_width, 0)
+        elif projectile_type == 'airplane':
+            self.max_magnitude = 1
+        else:
+            self.max_magnitude = 0
         self.delta = 5
         self.velocity = pygame.math.Vector2(random.random(),random.random())
-        self.previouspos = []
+        pygame.math.Vector2.scale_to_length(self.velocity, self.max_magnitude)
+        self.start_position = self.pos.copy()
         
 
     def update(self):
-        self.previouspos.insert(0, self.pos.copy())
-        for idx in range(len(self.previouspos)):
-            if idx>20:
-                del self.previouspos[idx]
-        #     del self.previousposx[len(self.previousposx)]
-        #     del self.previousposx[len(self.previousposx)]
         self.pos += self.velocity
