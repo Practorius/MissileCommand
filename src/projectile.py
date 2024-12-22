@@ -16,10 +16,11 @@ class Projectile:
         else:
             self.max_magnitude = 0
 
-        self.velocity = pygame.math.Vector2(random.random(),random.random())
+        # velocity_components = self.calc_velo_init()
+        self.velocity = pygame.math.Vector2(random.random(), random.random())
         pygame.math.Vector2.scale_to_length(self.velocity, self.max_magnitude)
         self.start_position = self.pos.copy()
-        
 
+        
     def update(self):
         self.pos += self.velocity

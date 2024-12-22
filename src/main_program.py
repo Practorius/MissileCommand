@@ -25,7 +25,7 @@ boom_radius = 0
 
 offense_rockets = []        # List with rockets from the attacking force
 
-max_nr_of_rockets = 6
+max_nr_of_rockets = 1
 for idx in range(max_nr_of_rockets):
     rocket = projectile.Projectile(screen.get_width(), "offense")
     offense_rockets.append(rocket)
