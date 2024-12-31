@@ -3,16 +3,18 @@ import sys
 import time           
 import projectile
 import math
+from functions import projectile_collision
+
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
+SCREEN_CAPTION = 'Missile Command - Walcome'
+SCREEN_BACKGROUND = (0,0,0)
 
 pygame.init()           #Intialize the game
 
-def projectile_collision(offence, offence_radius, defence, defence_radius):
-    distance = math.sqrt((offence.x - defence[0])**2 +(offence.y - defence[1])**2)
-    return distance < offence_radius + defence_radius
-
-screen = pygame.display.set_mode((800, 600))            # Create screen 
-pygame.display.set_caption("Missile Command")      # Set title screen
-screen.fill((0, 0, 0))                            # Fill screen with grey color
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))            # Create screen 
+pygame.display.set_caption(SCREEN_CAPTION)      # Set title screen
+screen.fill(SCREEN_BACKGROUND)                            # Fill screen with grey color
 clock = pygame.time.Clock()     # Create clock to set and track FPS
 
 # You can create a surface with text on it. For this take a look at this short example:
