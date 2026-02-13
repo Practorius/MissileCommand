@@ -3,19 +3,19 @@ import sys
 import time           
 import projectile
 import math
+from functions import projectile_collision
+
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
+SCREEN_CAPTION = 'Missile Command - Walcome'
+SCREEN_BACKGROUND = (0,0,0)
 
 pygame.init()           #Intialize the game
 
-def projectile_collision(offence, offence_radius, defence, defence_radius):
-    distance = math.sqrt((offence.x - defence[0])**2 +(offence.y - defence[1])**2)
-    return distance < offence_radius + defence_radius
-
-screen = pygame.display.set_mode((800, 600))            # Create screen 
-pygame.display.set_caption("Missile Command")      # Set title screen
-screen.fill((0, 0, 0))                            # Fill screen with grey color
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))            # Create screen 
+pygame.display.set_caption(SCREEN_CAPTION)      # Set title screen
+screen.fill(SCREEN_BACKGROUND)                            # Fill screen with grey color
 clock = pygame.time.Clock()     # Create clock to set and track FPS
-
-
 
 # You can create a surface with text on it. For this take a look at this short example:
 pygame.font.init() # you have to call this at the start, 
@@ -26,8 +26,11 @@ boom_pos = None
 boom_radius = 0
 
 offense_rockets = []        # List with rockets from the attacking force
-rocket = projectile.Projectile(screen.get_width(), "offense")
-offense_rockets.append(rocket)
+
+max_nr_of_rockets = 1
+for idx in range(max_nr_of_rockets):
+    rocket = projectile.Projectile(screen.get_width(), "offense")
+    offense_rockets.append(rocket)
 
 FONT = pygame.font.SysFont("Sans", 20)  # Fint for text to display something on screen
 hit_or_not = False
@@ -40,8 +43,7 @@ while running == True:
             running=False                       # The game shoudl stop running
         elif event.type == pygame.MOUSEBUTTONUP :                       # If mouse clicked then defensive player launched explosion, so this should be drawn
             rocket_player = projectile.Projectile(screen.get_width(), "defense")
-
-            print("Muisknop geklikt op: ",pygame.mouse.get_pos())
+            # print("Muisknop geklikt op: ",pygame.mouse.get_pos())
             boom_pos = pygame.mouse.get_pos()
             boom_radius = 0
 
@@ -61,10 +63,15 @@ while running == True:
         pygame.draw.ellipse(screen,(255,0,0),(rocket.pos.x, rocket.pos.y, 10,10))
 
         if boom_pos != None:
-            hit_or_not = projectile_collision(rocket.pos, 10, boom_pos, boom_radius)
+            hit_or_not = projectile_collision(rocket.pos, 5, boom_pos, boom_radius)
 
         if rocket.pos.y >= screen.get_height() or rocket.pos.x < 0 or rocket.pos.x > screen.get_width() or hit_or_not:
             offense_rockets.remove(rocket)
+
+        if len(offense_rockets) < max_nr_of_rockets:
+            for nr_of_rockets in range(max_nr_of_rockets - len(offense_rockets)):
+                rocket = projectile.Projectile(screen.get_width(), "offense")
+                offense_rockets.append(rocket)
 
     #Draw the explosion for the defensive player
     #This shoudl be part of the rocket loop. If is was a hit then the rocket shoulld
