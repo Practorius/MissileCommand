@@ -63,7 +63,7 @@ while running == True:
         pygame.draw.ellipse(screen,(255,0,0),(rocket.pos.x, rocket.pos.y, 10,10))
 
         if boom_pos != None:
-            hit_or_not = projectile_collision(rocket.pos, 10, boom_pos, boom_radius)
+            hit_or_not = projectile_collision(rocket.pos, 5, boom_pos, boom_radius)
 
         if rocket.pos.y >= screen.get_height() or rocket.pos.x < 0 or rocket.pos.x > screen.get_width() or hit_or_not:
             offense_rockets.remove(rocket)
